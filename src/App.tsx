@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {ChangeEventHandler} from 'react';
 import './App.css';
+import {ReduxComponent} from "./state-managers/redux-toolkit/component";
+import {ZustandComponent} from "./state-managers/zustand/componnets";
+import {xStateComponent} from "./state-managers/xstate/component";
+
+const Checkbox: React.FC<{ label: string, value: boolean, onChange: ChangeEventHandler<HTMLInputElement> }> = ({
+                                                                                                                   onChange
+}) => {
+    return (
+        <label>
+            <input type="checkbox" checked={value} onChange={onChange}/>
+            {label}
+        </label>
+    );
+};
+
+// set map of the state managers
+const map1 = new Map();
+
+map1.set(0, ReduxComponent);
+map1.set(1, ZustandComponent);
+map1.set(2, xStateComponent);
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [stateManager, setStateManager] = React.useState(0)
+    const isChecked = (i: number): boolean => i === stateManager;
+    const handleChange = (i: number) => setStateManager(i);
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                {[...map1].map(([i, component], idx) => <Checkbox key={`element:${idx}`} label={component.name}
+                                                                  value={isChecked(idx)}
+                                                                  onChange={() => handleChange(idx)}/>)}
+                {map1.get(stateManager)()}
+            </header>
+        </div>
+    );
 }
 
 export default App;
