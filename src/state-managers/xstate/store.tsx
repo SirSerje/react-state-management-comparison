@@ -1,11 +1,6 @@
-export default {};
-// TODO: cant install @xstate/react
-/*
-
-import { createMachine, interpret,  assign } from 'xstate';
 import React, { FC, createContext, useContext } from "react";
+import { createMachine,  assign } from 'xstate';
 import { useMachine } from "@xstate/react";
-import {AuxProps} from "../../types";
 
 type CounterContext = {
     counter: number;
@@ -35,7 +30,7 @@ const counterMachine = createMachine<CounterContext, CounterEvent>({
                 },
                 DECREMENT: {
                     actions: assign({ counter: decrement }),
-                    cond: (context) => context.counter >= 0
+                    cond: (context) => context.counter > 0
                 }
             }
         }
@@ -67,4 +62,4 @@ export const ApplicationContextProvider: FC<Props> = ({
         </ApplicationContext.Provider>
 );
 
-export const useApplicationContext = () => useContext(ApplicationContext);*/
+export const useApplicationContext = () => useContext(ApplicationContext);

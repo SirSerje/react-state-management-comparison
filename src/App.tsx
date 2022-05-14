@@ -3,9 +3,12 @@ import './App.css';
 import {ReduxComponent} from "./state-managers/redux-toolkit/component";
 import {ZustandComponent} from "./state-managers/zustand/componnets";
 import {xStateComponent} from "./state-managers/xstate/component";
+import {JotaiComponent} from "./state-managers/jotai/component"
+import {MobxComponent} from "./state-managers/mobx/component";
+import {HookstateComponent} from "./state-managers/hookstate/components";
 
 const Checkbox: React.FC<{ label: string, value: boolean, onChange: ChangeEventHandler<HTMLInputElement> }> = ({
-                                                                                                                   onChange
+onChange, value, label
 }) => {
     return (
         <label>
@@ -21,10 +24,13 @@ const map1 = new Map();
 map1.set(0, ReduxComponent);
 map1.set(1, ZustandComponent);
 map1.set(2, xStateComponent);
+map1.set(3, JotaiComponent);
+map1.set(4, MobxComponent);
+map1.set(5, HookstateComponent);
 
 
 function App() {
-    const [stateManager, setStateManager] = React.useState(0)
+    const [stateManager, setStateManager] = React.useState(5)
     const isChecked = (i: number): boolean => i === stateManager;
     const handleChange = (i: number) => setStateManager(i);
 
