@@ -1,9 +1,5 @@
 import {createState, useState} from '@hookstate/core'
-import React, {useEffect} from 'react'
-
 export const counter = createState(0);
-
-
 
 export const useIncrement = () => {
     const counterState = useState(counter);

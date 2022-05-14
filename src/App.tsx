@@ -6,6 +6,7 @@ import {xStateComponent} from "./state-managers/xstate/component";
 import {JotaiComponent} from "./state-managers/jotai/component"
 import {MobxComponent} from "./state-managers/mobx/component";
 import {HookstateComponent} from "./state-managers/hookstate/components";
+import {EffectorComponent} from "./state-managers/effector/components";
 
 const Checkbox: React.FC<{ label: string, value: boolean, onChange: ChangeEventHandler<HTMLInputElement> }> = ({
 onChange, value, label
@@ -27,10 +28,11 @@ map1.set(2, xStateComponent);
 map1.set(3, JotaiComponent);
 map1.set(4, MobxComponent);
 map1.set(5, HookstateComponent);
+map1.set(5, EffectorComponent);
 
 
 function App() {
-    const [stateManager, setStateManager] = React.useState(5)
+    const [stateManager, setStateManager] = React.useState(0)
     const isChecked = (i: number): boolean => i === stateManager;
     const handleChange = (i: number) => setStateManager(i);
 
