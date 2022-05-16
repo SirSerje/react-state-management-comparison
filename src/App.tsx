@@ -1,51 +1,53 @@
-import React, {ChangeEventHandler} from 'react';
-import './App.css';
-import {ReduxComponent} from "./state-managers/redux-toolkit/component";
-import {ZustandComponent} from "./state-managers/zustand/componnets";
-import {xStateComponent} from "./state-managers/xstate/component";
-import {JotaiComponent} from "./state-managers/jotai/component"
-import {MobxComponent} from "./state-managers/mobx/component";
-import {HookstateComponent} from "./state-managers/hookstate/components";
-import {EffectorComponent} from "./state-managers/effector/components";
-
-const Checkbox: React.FC<{ label: string, value: boolean, onChange: ChangeEventHandler<HTMLInputElement> }> = ({
-onChange, value, label
-}) => {
-    return (
-        <label>
-            <input type="checkbox" checked={value} onChange={onChange}/>
-            {label}
-        </label>
-    );
-};
+import React from "react";
+import "./App.scss";
+import { reduxToolkitComponent } from "./state-managers/redux-toolkit";
+import { ZustandComponent } from "./state-managers/zustand";
+import { xStateComponent } from "./state-managers/xstate";
+import { JotaiComponent } from "./state-managers/jotai";
+import { MobxComponent } from "./state-managers/mobx";
+import { HookstateComponent } from "./state-managers/hookstate";
+import { EffectorComponent } from "./state-managers/effector";
+import { reduxComponent } from "./state-managers/redux";
+import { Checkbox } from "./common/Checkbox";
 
 // set map of the state managers
-const map1 = new Map();
-
-map1.set(0, ReduxComponent);
-map1.set(1, ZustandComponent);
-map1.set(2, xStateComponent);
-map1.set(3, JotaiComponent);
-map1.set(4, MobxComponent);
-map1.set(5, HookstateComponent);
-map1.set(5, EffectorComponent);
-
+const componentsMap = new Map();
+componentsMap.set(0, reduxToolkitComponent);
+componentsMap.set(1, ZustandComponent);
+componentsMap.set(2, xStateComponent);
+componentsMap.set(3, JotaiComponent);
+componentsMap.set(4, MobxComponent);
+componentsMap.set(5, HookstateComponent);
+componentsMap.set(5, EffectorComponent);
+componentsMap.set(6, reduxComponent);
 
 function App() {
-    const [stateManager, setStateManager] = React.useState(0)
-    const isChecked = (i: number): boolean => i === stateManager;
-    const handleChange = (i: number) => setStateManager(i);
+  const [stateManager, setStateManager] = React.useState(0);
+  const isChecked = (i: number): boolean => i === stateManager;
+  const handleChange = (i: number) => setStateManager(i);
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                {[...map1].map(([i, component], idx) => <Checkbox key={`element:${idx}`} label={component.name}
-                                                                  value={isChecked(idx)}
-                                                                  onChange={() => handleChange(idx)}/>)}
-                {map1.get(stateManager)()}
-            </header>
-        </div>
-    );
+  const current = componentsMap.get(stateManager);
+  return (
+    <div className="App">
+      <aside className="sidenav">
+        <ul>
+          {[...componentsMap].map(([i, component], idx) => (
+            <li key={`element:${idx}`}>
+              <Checkbox
+                label={component.displayName}
+                value={isChecked(idx)}
+                onChange={() => handleChange(idx)}
+              />
+            </li>
+          ))}
+        </ul>
+      </aside>
+      <main className="main">
+        <h3>{current.displayName}</h3>
+        {current()}
+      </main>
+    </div>
+  );
 }
 
 export default App;

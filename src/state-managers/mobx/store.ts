@@ -1,27 +1,27 @@
-import {makeAutoObservable, observable} from "mobx";
+import { makeAutoObservable, observable } from "mobx";
 
 class ApplicationStore {
-    counter = 0;
+  counter = 0;
 
-    constructor() {
-        makeAutoObservable(
-            this,
-            {
-                counter: observable,
-            },
-            { autoBind: true }
-        );
-    }
+  constructor() {
+    makeAutoObservable(
+      this,
+      {
+        counter: observable,
+      },
+      { autoBind: true }
+    );
+  }
 
-    increment() {
-        this.counter ++
-    }
+  increment() {
+    this.counter++;
+  }
 
-    decrement() {
-        if(this.counter > 0) {
-            this.counter --
-        }
+  decrement() {
+    if (this.counter > 0) {
+      this.counter--;
     }
+  }
 }
 
 export const mobxStore = new ApplicationStore();

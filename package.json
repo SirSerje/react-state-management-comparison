@@ -25,6 +25,7 @@
     "mobx-state-tree": "^5.1.5",
     "observable-hooks": "^4.2.0",
     "react": "^18.1.0",
+    "react-addons-perf": "^15.4.2",
     "react-dom": "^18.1.0",
     "react-hooks-global-state": "^1.0.2",
     "react-query": "^3.39.0",
@@ -33,6 +34,7 @@
     "recoil": "^0.7.3-alpha.2",
     "redux": "^4.2.0",
     "rematch": "^0.1.3",
+    "sass": "^1.51.0",
     "source-map-explorer": "^2.5.2",
     "storeon": "^3.1.5",
     "typescript": "^4.6.4",
@@ -44,11 +46,12 @@
     "zustand": "^4.0.0-rc.1"
   },
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "npm run build; source-map-explorer 'build/static/js/*.js'",
     "start": "PORT=3098 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "npx prettier --write src/*"
   },
   "eslintConfig": {
     "extends": [
