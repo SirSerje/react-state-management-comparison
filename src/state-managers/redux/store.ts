@@ -1,21 +1,21 @@
-import { Action } from "redux";
+import {Action} from 'redux';
 
 export interface State {
   count: number;
 }
 
 const ACTION_TYPES = {
-  INCREMENT: "INCREMENT",
-  DECREMENT: "DECREMENT",
+  INCREMENT: 'INCREMENT',
+  DECREMENT: 'DECREMENT',
 };
-export const increment = () => ({ type: ACTION_TYPES.INCREMENT });
-export const decrement = () => ({ type: ACTION_TYPES.DECREMENT });
+export const increment = () => ({type: ACTION_TYPES.INCREMENT});
+export const decrement = () => ({type: ACTION_TYPES.DECREMENT});
 
 const initialState: State = {
   count: 0,
 };
 export const counterReducer = (state = initialState, action: Action) => {
-  const { type } = action;
+  const {type} = action;
   switch (type) {
     case ACTION_TYPES.INCREMENT:
       return {

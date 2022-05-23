@@ -1,14 +1,14 @@
-import React from "react";
-import "./App.scss";
-import { reduxToolkitComponent } from "./state-managers/redux-toolkit";
-import { ZustandComponent } from "./state-managers/zustand";
-import { xStateComponent } from "./state-managers/xstate";
-import { JotaiComponent } from "./state-managers/jotai";
-import { MobxComponent } from "./state-managers/mobx";
-import { HookstateComponent } from "./state-managers/hookstate";
-import { EffectorComponent } from "./state-managers/effector";
-import { reduxComponent } from "./state-managers/redux";
-import { Checkbox } from "./common/Checkbox";
+import React from 'react';
+import './App.scss';
+import {reduxToolkitComponent} from './state-managers/redux-toolkit';
+import {ZustandComponent} from './state-managers/zustand';
+import {xStateComponent} from './state-managers/xstate';
+import {JotaiComponent} from './state-managers/jotai';
+import {MobxComponent} from './state-managers/mobx';
+import {HookstateComponent} from './state-managers/hookstate';
+import {EffectorComponent} from './state-managers/effector';
+import {reduxComponent} from './state-managers/redux';
+import {Checkbox} from './common/Checkbox';
 
 // set map of the state managers
 const componentsMap = new Map();
@@ -21,7 +21,7 @@ componentsMap.set(5, HookstateComponent);
 componentsMap.set(5, EffectorComponent);
 componentsMap.set(6, reduxComponent);
 
-function App() {
+export default () => {
   const [stateManager, setStateManager] = React.useState(0);
   const isChecked = (i: number): boolean => i === stateManager;
   const handleChange = (i: number) => setStateManager(i);
@@ -33,21 +33,17 @@ function App() {
         <ul>
           {[...componentsMap].map(([i, component], idx) => (
             <li key={`element:${idx}`}>
-              <Checkbox
-                label={component.displayName}
-                value={isChecked(idx)}
-                onChange={() => handleChange(idx)}
-              />
+              <Checkbox label={component.displayName} value={isChecked(idx)} onChange={() => handleChange(idx)} />
             </li>
           ))}
         </ul>
       </aside>
       <main className="main">
-        <h3>{current.displayName}</h3>
-        {current()}
+        <div className="section">
+          <h3>{current.displayName}</h3>
+          {current()}
+        </div>
       </main>
     </div>
   );
-}
-
-export default App;
+};

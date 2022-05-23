@@ -1,10 +1,4 @@
-import {
-  createEvent,
-  createStore,
-  createEffect,
-  combine,
-  sample,
-} from "effector";
+import {createEvent, createStore} from 'effector';
 
 export const increment = createEvent();
 export const decrement = createEvent();

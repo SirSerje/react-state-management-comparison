@@ -1,6 +1,6 @@
-import React, { FC, createContext, useContext } from "react";
-import { createMachine, assign } from "xstate";
-import { useMachine } from "@xstate/react";
+import React, {createContext, FC, useContext} from 'react';
+import {assign, createMachine} from 'xstate';
+import {useMachine} from '@xstate/react';
 
 type CounterContext = {
   counter: number;
@@ -14,10 +14,10 @@ interface ApplicationState extends CounterContext {
   decrement: () => void;
 }
 
-type CounterEvent = { type: "INCREMENT" } | { type: "DECREMENT" };
+type CounterEvent = {type: 'INCREMENT'} | {type: 'DECREMENT'};
 
 const counterMachine = createMachine<CounterContext, CounterEvent>({
-  initial: "active",
+  initial: 'active',
   context: {
     counter: 0,
   },
@@ -25,10 +25,10 @@ const counterMachine = createMachine<CounterContext, CounterEvent>({
     active: {
       on: {
         INCREMENT: {
-          actions: assign({ counter: increment }),
+          actions: assign({counter: increment}),
         },
         DECREMENT: {
-          actions: assign({ counter: decrement }),
+          actions: assign({counter: decrement}),
           cond: (context) => context.counter > 0,
         },
       },
@@ -46,17 +46,17 @@ const useApplicationState = (): ApplicationState => {
 
   return {
     counter: state.context.counter,
-    increment: () => send("INCREMENT"),
-    decrement: () => send("DECREMENT"),
+    increment: () => send('INCREMENT'),
+    decrement: () => send('DECREMENT'),
   };
 };
+
 interface Props {
   children: JSX.Element;
 }
-export const ApplicationContextProvider: FC<Props> = ({ children }) => (
-  <ApplicationContext.Provider value={useApplicationState()}>
-    {children}
-  </ApplicationContext.Provider>
+
+export const ApplicationContextProvider: FC<Props> = ({children}) => (
+  <ApplicationContext.Provider value={useApplicationState()}>{children}</ApplicationContext.Provider>
 );
 
 export const useApplicationContext = () => useContext(ApplicationContext);

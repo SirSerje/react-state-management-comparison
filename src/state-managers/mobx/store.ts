@@ -1,7 +1,7 @@
-import { makeAutoObservable, observable } from "mobx";
+import {makeAutoObservable, observable} from 'mobx';
 
 class ApplicationStore {
-  counter = 0;
+  public counter = 0;
 
   constructor() {
     makeAutoObservable(
@@ -9,15 +9,15 @@ class ApplicationStore {
       {
         counter: observable,
       },
-      { autoBind: true }
+      {autoBind: true},
     );
   }
 
-  increment() {
+  public increment() {
     this.counter++;
   }
 
-  decrement() {
+  public decrement() {
     if (this.counter > 0) {
       this.counter--;
     }
