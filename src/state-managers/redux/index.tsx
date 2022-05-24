@@ -31,8 +31,7 @@ const Display: FC<Pick<CounterProps, 'count'>> = ({count: counter}) => {
 
 const ControlsContainer = connect(mapStateToProps, mapDispatchToProps)(Controls);
 
-//TODO: fix any
-const DisplayContainer: any = connect(mapStateToProps)(Display);
+const DisplayContainer = connect(mapStateToProps)(Display);
 
 export const reduxComponent = () => (
   <Provider store={store}>
