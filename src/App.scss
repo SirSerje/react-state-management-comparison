@@ -53,3 +53,32 @@ ul {
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.book-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.book-view {
+  padding: 4px;
+  margin: 4px;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  font-size: 18px;
+  border: 1px solid #dcdcdc;
+  border-radius: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-content {
+  height: 72px;
+  font-size: 12px;
+  padding-bottom: 0;
+  text-overflow: initial;
+  white-space: initial;
+  overflow: hidden;
+}

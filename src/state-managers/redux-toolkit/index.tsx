@@ -1,26 +1,21 @@
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import {decrement, increment, reduxToolkitStore, selectCount} from './store';
+import {selectBook, store, fetchBooks, selectLoading, Dispatcher} from './store';
 import React from 'react';
 import {Counter} from '../../common/Counter';
 import {Control} from '../../common/Control';
 
 const Controls = () => {
-  const dispatch = useDispatch();
-  return <Control increment={() => dispatch(increment())} decrement={() => dispatch(decrement())} />;
-  return (
-    <>
-      <button onClick={() => dispatch(increment())}>+</button>
-      <button onClick={() => dispatch(decrement())}>-</button>
-    </>
-  );
+  const dispatch = useDispatch<Dispatcher>();
+  return <Control increment={() => dispatch(fetchBooks())} />;
 };
 const Display = () => {
-  const counter = useSelector(selectCount);
-  return <Counter count={counter} />;
+  const data = useSelector(selectBook);
+  const isLoading = useSelector(selectLoading);
+  return <Counter isLoading={isLoading} data={data} />;
 };
 
 export const reduxToolkitComponent = () => (
-  <Provider store={reduxToolkitStore}>
+  <Provider store={store}>
     <div className="example">
       <Controls />
       <div className="break" />
