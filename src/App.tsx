@@ -14,12 +14,12 @@ import {Checkbox} from './common/Checkbox';
 const componentsMap = new Map();
 componentsMap.set(0, reduxComponent);
 componentsMap.set(1, reduxToolkitComponent);
-componentsMap.set(2, xStateComponent);
-componentsMap.set(3, JotaiComponent);
-componentsMap.set(4, MobxComponent);
-componentsMap.set(5, HookstateComponent);
-componentsMap.set(5, EffectorComponent);
-componentsMap.set(6, ZustandComponent);
+componentsMap.set(2, ZustandComponent);
+componentsMap.set(3, xStateComponent);
+componentsMap.set(4, JotaiComponent);
+componentsMap.set(5, MobxComponent);
+componentsMap.set(6, HookstateComponent);
+componentsMap.set(7, EffectorComponent);
 
 export default () => {
   const [stateManager, setStateManager] = React.useState(0);
