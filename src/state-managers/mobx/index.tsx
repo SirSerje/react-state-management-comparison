@@ -1,15 +1,15 @@
 import React from 'react';
 import {observer} from 'mobx-react-lite';
-import {mobxStore} from './store';
+import {store} from './store';
 import {Control} from '../../common/Control';
 import {Counter} from '../../common/Counter';
 
 const Controls = observer(() => {
-  return <Control increment={mobxStore.increment} decrement={mobxStore.decrement} />;
+  return <Control increment={store.fetch} />;
 });
 
 const Display = observer(() => {
-  return <Counter count={mobxStore.counter} />;
+  return <Counter isLoading={store.state.isLoading} data={store.state.books.data} />;
 });
 export const MobxComponent = () => (
   <div className="example">

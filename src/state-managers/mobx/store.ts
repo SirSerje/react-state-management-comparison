@@ -1,27 +1,38 @@
 import {makeAutoObservable, observable} from 'mobx';
+import {Book, BooksState, initialState} from '../../common/types';
+import {normalize} from '../../common/normalize';
 
 class ApplicationStore {
-  public counter = 0;
+  public state: BooksState = {...initialState};
 
   constructor() {
     makeAutoObservable(
       this,
       {
-        counter: observable,
+        state: observable,
       },
       {autoBind: true},
     );
   }
 
-  public increment() {
-    this.counter++;
+  public async fetch() {
+    this.state.isLoading = true;
+    fetch('http://localhost:3067/data')
+      .then((response) => response.json())
+      .then((data: Book[]) => {
+        this.state.books = normalize<Book>(data);
+        this.state.isLoading = false;
+        this.state.error = [];
+      })
+      .catch((e) => {
+        this.state.books = {...initialState.books};
+        this.state.isLoading = false;
+        this.state.error.push(e);
+      });
   }
-
-  public decrement() {
-    if (this.counter > 0) {
-      this.counter--;
-    }
+  private setInitial() {
+    this.state = {...initialState};
   }
 }
 
-export const mobxStore = new ApplicationStore();
+export const store = new ApplicationStore();
