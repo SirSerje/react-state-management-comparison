@@ -1,18 +1,18 @@
 import {useAtom} from 'jotai';
-import {counterAtom, decrementAtom, incrementAtom} from './store';
+import {booksAtom, fetchAtom, loadingAtom} from './store';
 import React from 'react';
 import {Control} from '../../common/Control';
 import {Counter} from '../../common/Counter';
 
 const Controls = () => {
-  const [, setIncrement] = useAtom(incrementAtom);
-  const [, setDecrement] = useAtom(decrementAtom);
-  return <Control increment={setIncrement} decrement={setDecrement} />;
+  const [, fetchData] = useAtom(fetchAtom);
+  return <Control increment={fetchData} />;
 };
 
 const Display = () => {
-  const [counter] = useAtom(counterAtom);
-  return <Counter count={counter} />;
+  const [isLoading] = useAtom(loadingAtom);
+  const [books] = useAtom(booksAtom);
+  return <Counter data={books.data} isLoading={isLoading} />;
 };
 
 export const JotaiComponent = () => (

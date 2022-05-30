@@ -4,13 +4,16 @@ import {Control} from '../../common/Control';
 import {Counter} from '../../common/Counter';
 
 const Controls = () => {
-  const {increment, decrement} = useApplicationState();
-  return <Control increment={increment} decrement={decrement} />;
+  const {fetchBook} = useApplicationState();
+  return <Control increment={fetchBook} />;
 };
 
 const Display = () => {
-  const {counter} = useApplicationState();
-  return <Counter count={counter} />;
+  const {
+    books: {data},
+    isLoading,
+  } = useApplicationState();
+  return <Counter data={data} isLoading={isLoading} />;
 };
 
 export const ZustandComponent = () => (

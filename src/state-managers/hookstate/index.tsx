@@ -1,19 +1,16 @@
 import React from 'react';
-import {counter, useDecrement, useIncrement} from './store';
-import {useState} from '@hookstate/core';
+import {useBooksState} from './store';
 import {Control} from '../../common/Control';
 import {Counter} from '../../common/Counter';
 
 const Controls = () => {
-  const {increment} = useIncrement();
-  const {decrement} = useDecrement();
-  return <Control increment={increment} decrement={decrement} />;
+  const {fetchBooks} = useBooksState();
+  return <Control increment={fetchBooks} />;
 };
 
 const Display = () => {
-  const counterState = useState(counter);
-  const label = `current: ${counterState}`;
-  return <Counter count={counterState as unknown as number}>{label}</Counter>;
+  const {data, isLoading} = useBooksState();
+  return <Counter data={data} isLoading={isLoading} />;
 };
 
 export const HookstateComponent = () => (

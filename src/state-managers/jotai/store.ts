@@ -1,20 +1,20 @@
 import {atom} from 'jotai';
-//TODO: too primitive example, need to use smth like this:
-// https://github.com/GeoffCox/recoil-examples/blob/master/atoms-tutorial/src/atoms.ts
+import {normalize} from '../../common/normalize';
+import {Book, initialState, NormalizedData} from '../../common/types';
 
-export const counterAtom = atom(0);
+export const loadingAtom = atom(false);
+export const booksAtom = atom<NormalizedData<Book>>({...initialState.books});
+export const errorAtom = atom([]);
 
-export const incrementAtom = atom(
-  (get) => get(counterAtom),
-  (get, set) => {
-    set(counterAtom, get(counterAtom) + 1);
-  },
-);
-export const decrementAtom = atom(
-  (get) => get(counterAtom),
-  (get, set) => {
-    if (get(counterAtom) > 0) {
-      set(counterAtom, get(counterAtom) - 1);
-    }
-  },
-);
+export const fetchAtom = atom(null, async (get, set) => {
+  // await something
+  set(loadingAtom, true);
+  try {
+    const raw = await fetch('http://localhost:3067/data');
+    const data = await raw.json();
+    set(booksAtom, normalize(data));
+    set(loadingAtom, false);
+  } catch (e) {
+    set(loadingAtom, false);
+  }
+});

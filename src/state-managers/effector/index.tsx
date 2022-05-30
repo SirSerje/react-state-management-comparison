@@ -1,18 +1,19 @@
 import React from 'react';
 import {useEvent, useStore} from 'effector-react';
-import {$counter, decrement, increment} from './store';
 import {Control} from '../../common/Control';
 import {Counter} from '../../common/Counter';
+import {fetchBooks, $books, getDataFx} from './store';
+import {BooksState} from '../../common/types';
 
 const Controls = () => {
-  const onIncrement = useEvent(increment);
-  const onDecrement = useEvent(decrement);
-  return <Control increment={onIncrement} decrement={onDecrement} />;
+  const fetchBook = useEvent(fetchBooks);
+  return <Control increment={fetchBook} />;
 };
 
 const Display = () => {
-  const counter = useStore($counter);
-  return <Counter count={counter} />;
+  const isLoading = useStore<boolean>(getDataFx.pending);
+  const books = useStore<BooksState>($books);
+  return <Counter data={books.books.data} isLoading={isLoading} />;
 };
 
 export const EffectorComponent = () => (

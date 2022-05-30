@@ -58,7 +58,7 @@
     "eject": "react-scripts eject",
     "prettier": "npx prettier --write src/*",
     "back": "nodemon ./src/server/index.js",
-    "all": "concurrently \"npm run front\" \"npm run back\""
+    "start": "concurrently \"npm run front\" \"npm run back\""
   },
   "eslintConfig": {
     "extends": [
