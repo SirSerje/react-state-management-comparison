@@ -4,16 +4,16 @@ import {Counter} from '../../common/Counter';
 import {Control} from '../../common/Control';
 
 const Controls = () => {
-  const {increment, decrement} = useApplicationContext();
-  return <Control increment={increment} decrement={decrement} />;
+  const {fetchBooks} = useApplicationContext();
+  return <Control increment={fetchBooks} />;
 };
 
 const Display = () => {
-  const {counter} = useApplicationContext();
-  return <Counter count={counter} />;
+  const {books} = useApplicationContext();
+  return <Counter data={books.data} />;
 };
 
-export const xStateComponent = () => (
+export const XStateComponent = () => (
   <ApplicationContextProvider>
     <div className="example">
       <Controls />
@@ -23,4 +23,4 @@ export const xStateComponent = () => (
   </ApplicationContextProvider>
 );
 
-xStateComponent.displayName = 'XState';
+XStateComponent.displayName = 'XState';

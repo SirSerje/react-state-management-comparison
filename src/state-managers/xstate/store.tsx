@@ -1,53 +1,57 @@
 import React, {createContext, FC, useContext} from 'react';
 import {assign, createMachine} from 'xstate';
 import {useMachine} from '@xstate/react';
+import {Book, initialState, NormalizedData} from '../../common/types';
+import {normalize} from '../../common/normalize';
 
-type CounterContext = {
-  counter: number;
-};
-const increment = (context: CounterContext) => context.counter + 1;
-const decrement = (context: CounterContext) => context.counter - 1;
+type CounterContext = {books: NormalizedData<Book>};
 
 interface ApplicationState extends CounterContext {
-  counter: number;
-  increment: () => void;
-  decrement: () => void;
+  fetchBooks: () => void;
 }
 
-type CounterEvent = {type: 'INCREMENT'} | {type: 'DECREMENT'};
+type CounterEvent = {type: 'FETCH'};
+
+const getBooksData = () =>
+  fetch('http://localhost:3067/data')
+    .then((response) => response.json())
+    .catch();
 
 const counterMachine = createMachine<CounterContext, CounterEvent>({
-  initial: 'active',
+  initial: 'idle',
   context: {
-    counter: 0,
+    books: {...initialState.books},
   },
   states: {
-    active: {
-      on: {
-        INCREMENT: {
-          actions: assign({counter: increment}),
+    idle: {on: {FETCH: 'loading'}},
+    loading: {
+      invoke: {
+        id: 'fetchData',
+        src: (context, event) => getBooksData(),
+        onDone: {
+          target: 'success',
+          actions: assign({books: (context, event) => normalize(event.data)}),
         },
-        DECREMENT: {
-          actions: assign({counter: decrement}),
-          cond: (context) => context.counter > 0,
+        onError: {
+          target: 'failure',
+          actions: assign({books: (context, event) => ({...initialState.books})}),
         },
       },
     },
+    success: {},
+    failure: {},
   },
 });
 const ApplicationContext = createContext<ApplicationState>({
-  counter: 0,
-  increment: () => {},
-  decrement: () => {},
+  fetchBooks: () => {},
+  books: {...initialState.books},
 });
 
 const useApplicationState = (): ApplicationState => {
   const [state, send] = useMachine(counterMachine);
-
   return {
-    counter: state.context.counter,
-    increment: () => send('INCREMENT'),
-    decrement: () => send('DECREMENT'),
+    books: {...state.context.books},
+    fetchBooks: () => send('FETCH'),
   };
 };
 
