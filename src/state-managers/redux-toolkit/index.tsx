@@ -5,27 +5,33 @@ import {Counter} from '../../common/Counter';
 import {Control} from '../../common/Control';
 
 const Controls = () => {
-  const dispatch = useDispatch();
-  return <Control increment={() => dispatch(increment())} decrement={() => dispatch(decrement())} />;
-  return (
-    <>
-      <button onClick={() => dispatch(increment())}>+</button>
-      <button onClick={() => dispatch(decrement())}>-</button>
-    </>
-  );
+    const dispatch = useDispatch();
+    return <Control increment={() => {
+        for (let i: number = 0; i < 5000; i++) {
+            dispatch(increment())
+        }
+        ;console.time('start')
+    }} decrement={() => dispatch(decrement())}/>;
+    return (
+        <>
+            <button onClick={() => dispatch(increment())}>+</button>
+            <button onClick={() => dispatch(decrement())}>-</button>
+        </>
+    );
 };
 const Display = () => {
-  const counter = useSelector(selectCount);
-  return <Counter count={counter} />;
+    console.timeEnd('start')
+    const counter = useSelector(selectCount);
+    return <Counter count={counter}/>;
 };
 
 export const reduxToolkitComponent = () => (
-  <Provider store={reduxToolkitStore}>
-    <div className="example">
-      <Controls />
-      <div className="break" />
-      <Display />
-    </div>
-  </Provider>
+    <Provider store={reduxToolkitStore}>
+        <div className="example">
+            <Controls/>
+            <div className="break"/>
+            <Display/>
+        </div>
+    </Provider>
 );
 reduxToolkitComponent.displayName = 'Redux Toolkit';

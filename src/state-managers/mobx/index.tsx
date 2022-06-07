@@ -5,10 +5,11 @@ import {Control} from '../../common/Control';
 import {Counter} from '../../common/Counter';
 
 const Controls = observer(() => {
-  return <Control increment={mobxStore.increment} decrement={mobxStore.decrement} />;
+  return <Control increment={() => {for(let i: number = 0; i<5000;i++){mobxStore.increment()};console.time('start')}} decrement={mobxStore.decrement} />;
 });
 
 const Display = observer(() => {
+    console.timeEnd('start')
   return <Counter count={mobxStore.counter} />;
 });
 export const MobxComponent = () => (

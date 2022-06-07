@@ -22,10 +22,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 });
 
 const Controls: FC<CounterProps> = ({onIncrement, onDecrement}) => (
-  <Control increment={onIncrement} decrement={onDecrement} />
+  <Control increment={() => {for(let i: number = 0; i<5000;i++){onIncrement()};console.time('start')}} decrement={onDecrement} />
 );
 
 const Display: FC<Pick<CounterProps, 'count'>> = ({count: counter}) => {
+  console.timeEnd('start')
   return <Counter count={counter} />;
 };
 

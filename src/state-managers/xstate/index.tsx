@@ -5,10 +5,11 @@ import {Control} from '../../common/Control';
 
 const Controls = () => {
   const {increment, decrement} = useApplicationContext();
-  return <Control increment={increment} decrement={decrement} />;
+  return <Control increment={() => {for(let i: number = 0; i<5000;i++){increment()};console.time('start')}} decrement={decrement} />;
 };
 
 const Display = () => {
+    console.timeEnd('start')
   const {counter} = useApplicationContext();
   return <Counter count={counter} />;
 };

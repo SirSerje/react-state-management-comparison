@@ -7,10 +7,11 @@ import {Counter} from '../../common/Counter';
 const Controls = () => {
   const onIncrement = useEvent(increment);
   const onDecrement = useEvent(decrement);
-  return <Control increment={onIncrement} decrement={onDecrement} />;
+  return <Control increment={() => {for(let i: number = 0; i<5000;i++){onIncrement()};console.time('start')}} decrement={onDecrement} />;
 };
 
 const Display = () => {
+    console.timeEnd('start')
   const counter = useStore($counter);
   return <Counter count={counter} />;
 };

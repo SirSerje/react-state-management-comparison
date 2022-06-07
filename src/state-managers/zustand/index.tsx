@@ -5,10 +5,11 @@ import {Counter} from '../../common/Counter';
 
 const Controls = () => {
   const {increment, decrement} = useApplicationState();
-  return <Control increment={increment} decrement={decrement} />;
+  return <Control increment={() => {for(let i: number = 0; i<5000;i++){increment()};console.time('start')}} decrement={decrement} />;
 };
 
 const Display = () => {
+    console.timeEnd('start')
   const {counter} = useApplicationState();
   return <Counter count={counter} />;
 };
