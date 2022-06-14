@@ -1,31 +1,31 @@
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import {decrement, increment, reduxToolkitStore, selectCount} from './store';
+import {selectBook, store, fetchBooks, selectLoading, Dispatcher} from './store';
 import React from 'react';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 import {Control} from '../../common/Control';
 
 const Controls = () => {
-  const dispatch = useDispatch();
-  return <Control increment={() => dispatch(increment())} decrement={() => dispatch(decrement())} />;
-  return (
-    <>
-      <button onClick={() => dispatch(increment())}>+</button>
-      <button onClick={() => dispatch(decrement())}>-</button>
-    </>
-  );
+  console.count('|   Controls Toolkit');
+  const dispatch = useDispatch<Dispatcher>();
+  return <Control onFetch={() => dispatch(fetchBooks())} />;
 };
-const Display = () => {
-  const counter = useSelector(selectCount);
-  return <Counter count={counter} />;
+const View = () => {
+  console.count('|   View Toolkit');
+  const data = useSelector(selectBook);
+  const isLoading = useSelector(selectLoading);
+  return <BookView isLoading={isLoading} data={data} />;
 };
 
-export const reduxToolkitComponent = () => (
-  <Provider store={reduxToolkitStore}>
-    <div className="example">
-      <Controls />
-      <div className="break" />
-      <Display />
-    </div>
-  </Provider>
-);
+export const reduxToolkitComponent = () => {
+  console.count('|--Container Toolkit');
+  return (
+    <Provider store={store}>
+      <div className="example">
+        <Controls />
+        <div className="break" />
+        <View />
+      </div>
+    </Provider>
+  );
+};
 reduxToolkitComponent.displayName = 'Redux Toolkit';

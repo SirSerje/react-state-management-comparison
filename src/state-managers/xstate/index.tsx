@@ -1,26 +1,31 @@
 import React from 'react';
 import {ApplicationContextProvider, useApplicationContext} from './store';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 import {Control} from '../../common/Control';
 
 const Controls = () => {
-  const {increment, decrement} = useApplicationContext();
-  return <Control increment={increment} decrement={decrement} />;
+  console.count('|   Control XState');
+  const {fetchBooks} = useApplicationContext();
+  return <Control onFetch={fetchBooks} />;
 };
 
-const Display = () => {
-  const {counter} = useApplicationContext();
-  return <Counter count={counter} />;
+const View = () => {
+  console.count('|   View XState');
+  const {books, isLoading} = useApplicationContext();
+  return <BookView data={books.data} isLoading={isLoading} />;
 };
 
-export const xStateComponent = () => (
-  <ApplicationContextProvider>
-    <div className="example">
-      <Controls />
-      <div className="break" />
-      <Display />
-    </div>
-  </ApplicationContextProvider>
-);
+export const XStateComponent = () => {
+  console.count('|--Container XState');
+  return (
+    <ApplicationContextProvider>
+      <div className="example">
+        <Controls />
+        <div className="break" />
+        <View />
+      </div>
+    </ApplicationContextProvider>
+  );
+};
 
-xStateComponent.displayName = 'XState';
+XStateComponent.displayName = 'XState';

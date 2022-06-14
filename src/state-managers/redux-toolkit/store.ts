@@ -1,30 +1,56 @@
-import {configureStore, createSlice} from '@reduxjs/toolkit';
+import {CaseReducer, configureStore, Dispatch, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
+import {Book, BooksState, initialState} from '../../common/types';
+import {normalize} from '../../common/normalize';
 
-const initialState = {value: 0};
+export const fetchBooks =
+  (quantity?: any) =>
+  (dispatch: Dispatch): any => {
+    dispatch(loading());
+    fetch('http://localhost:3067/data')
+      .then((response) => response.json())
+      .then((data: Book[]) => {
+        dispatch(success(data));
+      })
+      .catch((e) => {
+        dispatch(error(e));
+      });
+  };
 
-const counterSlice = createSlice({
-  name: 'counter',
+const loadingReducer: CaseReducer<BooksState> = (state) => {
+  state.isLoading = true;
+  state.error = [];
+};
+const successReducer: CaseReducer<BooksState, PayloadAction<Book[]>> = (state, action) => {
+  state.books = normalize<Book>(action.payload);
+  state.isLoading = false;
+  state.error = [];
+};
+const errorReducer: CaseReducer<BooksState, PayloadAction<Book[]>> = (state, payload) => {
+  state.books = {...initialState.books};
+  state.isLoading = false;
+  state.error = payload;
+};
+
+export const booksSlice = createSlice({
+  name: 'books',
   initialState,
   reducers: {
-    increment(state) {
-      state.value++;
-    },
-    decrement(state) {
-      if (state.value > 0) {
-        state.value--;
-      }
-    },
+    success: successReducer,
+    loading: loadingReducer,
+    error: errorReducer,
   },
 });
-//FIXME: state any
-export const selectCount = (state: any) => state.counter.value;
 
-export const {increment, decrement} = counterSlice.actions;
-
-export const counterSliceReducer = counterSlice.reducer;
-
-export const reduxToolkitStore = configureStore({
-  reducer: {
-    counter: counterSlice.reducer,
-  },
+export const store = configureStore({
+  // currently, the store has only 1 reducer, but it can easily changed
+  // with: { reducer : { bookReducer: BookSlice.reducer } }
+  reducer: booksSlice.reducer,
 });
+
+export const {loading, success, error} = booksSlice.actions;
+export const selectBook = (state: RootState) => state.books.data;
+export const selectLoading = (state: RootState) => state.isLoading;
+
+export type Dispatcher = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

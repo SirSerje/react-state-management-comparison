@@ -1,24 +1,32 @@
 import {useApplicationState} from './store';
 import React from 'react';
 import {Control} from '../../common/Control';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 
 const Controls = () => {
-  const {increment, decrement} = useApplicationState();
-  return <Control increment={increment} decrement={decrement} />;
+  console.count('|   Controls Zustand');
+  const {fetchBook} = useApplicationState();
+  return <Control onFetch={fetchBook} />;
 };
 
-const Display = () => {
-  const {counter} = useApplicationState();
-  return <Counter count={counter} />;
+const View = () => {
+  console.count('|   View Zustand');
+  const {
+    books: {data},
+    isLoading,
+  } = useApplicationState();
+  return <BookView data={data} isLoading={isLoading} />;
 };
 
-export const ZustandComponent = () => (
-  <div className="example">
-    <Controls />
-    <div className="break" />
-    <Display />
-  </div>
-);
+export const ZustandComponent = () => {
+  console.count('|--Container Zustand');
+  return (
+    <div className="example">
+      <Controls />
+      <div className="break" />
+      <View />
+    </div>
+  );
+};
 
 ZustandComponent.displayName = 'Zustand';

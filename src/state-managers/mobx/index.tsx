@@ -1,22 +1,29 @@
 import React from 'react';
 import {observer} from 'mobx-react-lite';
-import {mobxStore} from './store';
+import {store} from './store';
 import {Control} from '../../common/Control';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 
 const Controls = observer(() => {
-  return <Control increment={mobxStore.increment} decrement={mobxStore.decrement} />;
+  console.count('|   Controls MobX');
+  return <Control onFetch={store.fetch} />;
 });
 
-const Display = observer(() => {
-  return <Counter count={mobxStore.counter} />;
+const View = observer(() => {
+  console.count('|   View MobX');
+  const {isLoading, books} = store.state;
+  console.log(isLoading, books.data.length);
+  return <BookView isLoading={isLoading} data={books.data} />;
 });
-export const MobxComponent = () => (
-  <div className="example">
-    <Controls />
-    <div className="break" />
-    <Display />
-  </div>
-);
+export const MobxComponent = () => {
+  console.count('|--Container MobX');
+  return (
+    <div className="example">
+      <Controls />
+      <div className="break" />
+      <View />
+    </div>
+  );
+};
 
 MobxComponent.displayName = 'MobX';

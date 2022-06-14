@@ -1,26 +1,31 @@
 import {useAtom} from 'jotai';
-import {counterAtom, decrementAtom, incrementAtom} from './store';
+import {booksAtom, fetchAtom, loadingAtom} from './store';
 import React from 'react';
 import {Control} from '../../common/Control';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 
 const Controls = () => {
-  const [, setIncrement] = useAtom(incrementAtom);
-  const [, setDecrement] = useAtom(decrementAtom);
-  return <Control increment={setIncrement} decrement={setDecrement} />;
+  console.count('|   Control Jotai');
+  const [, fetchData] = useAtom(fetchAtom);
+  return <Control onFetch={fetchData} />;
 };
 
-const Display = () => {
-  const [counter] = useAtom(counterAtom);
-  return <Counter count={counter} />;
+const View = () => {
+  console.count('|   View Jotai');
+  const [isLoading] = useAtom(loadingAtom);
+  const [books] = useAtom(booksAtom);
+  return <BookView data={books.data} isLoading={isLoading} />;
 };
 
-export const JotaiComponent = () => (
-  <div className="example">
-    <Controls />
-    <div className="break" />
-    <Display />
-  </div>
-);
+export const JotaiComponent = () => {
+  console.count('|--Container Jotai');
+  return (
+    <div className="example">
+      <Controls />
+      <div className="break" />
+      <View />
+    </div>
+  );
+};
 
 JotaiComponent.displayName = 'Jotai';

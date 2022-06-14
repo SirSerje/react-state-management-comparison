@@ -1,15 +1,31 @@
 import {createState, useState} from '@hookstate/core';
+import {Book, BooksState, initialState} from '../../common/types';
+import {normalize} from '../../common/normalize';
+type HookstateState = Omit<BooksState, 'books'> & {books: Book[]};
+export const bookInitialState = createState<HookstateState>({...initialState, books: initialState.books.data});
 
-export const counter = createState(0);
-
-export const useIncrement = (): {increment: () => void} => {
-  const counterState = useState(counter);
-  const increment = () => counterState.set(counterState.get() + 1);
-  return {increment};
-};
-
-export const useDecrement = (): {decrement: () => void} => {
-  const counterState = useState(counter);
-  const decrement = () => counterState.get() > 0 && counterState.set(counterState.get() - 1);
-  return {decrement};
-};
+export function useBooksState() {
+  const state = useState<HookstateState>(bookInitialState);
+  const fetchBooks = async () => {
+    state.merge({isLoading: true});
+    try {
+      const raw = await fetch('http://localhost:3067/data');
+      const bookData = await raw.json();
+      state.merge({isLoading: false});
+      state.merge({error: []});
+      state.merge({books: normalize(bookData).data as Book[]});
+    } catch (error) {
+      state.merge({isLoading: false});
+      state.merge({error: error});
+    }
+  };
+  return {
+    get data() {
+      return state.get().books;
+    },
+    get isLoading() {
+      return state.get().isLoading;
+    },
+    fetchBooks,
+  };
+}
