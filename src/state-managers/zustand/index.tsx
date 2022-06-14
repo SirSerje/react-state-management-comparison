@@ -1,26 +1,26 @@
 import {useApplicationState} from './store';
 import React from 'react';
 import {Control} from '../../common/Control';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 
 const Controls = () => {
   const {fetchBook} = useApplicationState();
-  return <Control increment={fetchBook} />;
+  return <Control onFetch={fetchBook} />;
 };
 
-const Display = () => {
+const View = () => {
   const {
     books: {data},
     isLoading,
   } = useApplicationState();
-  return <Counter data={data} isLoading={isLoading} />;
+  return <BookView data={data} isLoading={isLoading} />;
 };
 
 export const ZustandComponent = () => (
   <div className="example">
     <Controls />
     <div className="break" />
-    <Display />
+    <View />
   </div>
 );
 

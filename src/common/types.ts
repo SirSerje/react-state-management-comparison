@@ -5,8 +5,11 @@ export const FETCH_ERROR = 'FETCH_ERROR';
 export type FETCH = typeof FETCH_LOADING | typeof FETCH_SUCCESS | typeof FETCH_ERROR;
 
 export interface Book {
-  id: string;
+  author: string;
   content: string;
+  createdAt: string;
+  id: string;
+  updatedAt: string;
 }
 
 export interface NormalizedData<T> {
@@ -17,6 +20,7 @@ export interface NormalizedData<T> {
 export interface State<T> {
   books: NormalizedData<T>;
   isLoading: boolean;
+  // we're collecting error data to show IRL example, but we're not displaying it due to obviousness
   error: any;
 }
 export type BooksState = State<Book>;

@@ -2,23 +2,21 @@ import React, {FC, PropsWithChildren} from 'react';
 import './Control.scss';
 
 interface Props {
-  increment?: () => void | void;
-  decrement?: () => void | void;
+  onFetch?: () => void | void;
 }
 
-export const Control: FC<PropsWithChildren<Props>> = ({increment, decrement}) => {
+export const Control: FC<PropsWithChildren<Props>> = ({onFetch}) => {
   return (
     <>
-      {typeof increment === 'function' && (
+      {typeof onFetch === 'function' && (
         <button
           onClick={() => {
-            increment();
+            onFetch();
           }}
         >
-          +
+          Fetch!
         </button>
       )}
-      {typeof decrement === 'function' && <button onClick={() => decrement()}>-</button>}
     </>
   );
 };

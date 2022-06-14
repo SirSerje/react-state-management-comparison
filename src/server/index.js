@@ -12,10 +12,11 @@ app.all('/*', function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  res.send('default backend');
+  res.send('send GET request to /data endpoint to collect books list');
 });
 
 app.get('/data', (req, res) => {
+  // data generated with https://json-generator.com/
   res.send(data);
 });
 

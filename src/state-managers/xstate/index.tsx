@@ -1,16 +1,16 @@
 import React from 'react';
 import {ApplicationContextProvider, useApplicationContext} from './store';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 import {Control} from '../../common/Control';
 
 const Controls = () => {
   const {fetchBooks} = useApplicationContext();
-  return <Control increment={fetchBooks} />;
+  return <Control onFetch={fetchBooks} />;
 };
 
-const Display = () => {
+const View = () => {
   const {books} = useApplicationContext();
-  return <Counter data={books.data} />;
+  return <BookView data={books.data} />;
 };
 
 export const XStateComponent = () => (
@@ -18,7 +18,7 @@ export const XStateComponent = () => (
     <div className="example">
       <Controls />
       <div className="break" />
-      <Display />
+      <View />
     </div>
   </ApplicationContextProvider>
 );

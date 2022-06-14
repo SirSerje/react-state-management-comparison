@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {fetchBooks, store, Dispatcher} from './store';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import {Counter} from '../../common/Counter';
+import {BookView} from '../../common/BookView';
 import {Control} from '../../common/Control';
 import {BooksState} from '../../common/types';
 
@@ -10,13 +10,13 @@ const Controls = () => {
   const fetchData = () => {
     dispatch(fetchBooks());
   };
-  return <Control increment={fetchData} />;
+  return <Control onFetch={fetchData} />;
 };
 
-const Display = () => {
+const View = () => {
   const data = useSelector((state: BooksState) => state.books.data);
   const isLoading = useSelector((state: BooksState) => state.isLoading);
-  return <Counter data={data} isLoading={isLoading} />;
+  return <BookView data={data} isLoading={isLoading} />;
 };
 
 export const reduxComponent = () => (
@@ -24,7 +24,7 @@ export const reduxComponent = () => (
     <div className="example">
       <Controls />
       <div className="break" />
-      <Display />
+      <View />
     </div>
   </Provider>
 );
