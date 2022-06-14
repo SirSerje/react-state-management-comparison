@@ -27,9 +27,8 @@ export const BookView: FC<PropsWithChildren<Props>> = ({count, data, isLoading})
           Loading
           <div className="book-content">...</div>
         </div>
-      ) : (
-        <>{renderList}</>
-      )}
+      ) : null}
+      {renderList}
     </div>
   );
 };

@@ -5,18 +5,25 @@ import {Control} from '../../common/Control';
 import {BookView} from '../../common/BookView';
 
 const Controls = observer(() => {
+  console.count('|   Controls MobX');
   return <Control onFetch={store.fetch} />;
 });
 
 const View = observer(() => {
-  return <BookView isLoading={store.state.isLoading} data={store.state.books.data} />;
+  console.count('|   View MobX');
+  const {isLoading, books} = store.state;
+  console.log(isLoading, books.data.length);
+  return <BookView isLoading={isLoading} data={books.data} />;
 });
-export const MobxComponent = () => (
-  <div className="example">
-    <Controls />
-    <div className="break" />
-    <View />
-  </div>
-);
+export const MobxComponent = () => {
+  console.count('|--Container MobX');
+  return (
+    <div className="example">
+      <Controls />
+      <div className="break" />
+      <View />
+    </div>
+  );
+};
 
 MobxComponent.displayName = 'MobX';

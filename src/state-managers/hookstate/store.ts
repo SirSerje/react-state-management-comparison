@@ -16,7 +16,7 @@ export function useBooksState() {
       state.merge({books: normalize(bookData).data as Book[]});
     } catch (error) {
       state.merge({isLoading: false});
-      state.merge({books: []});
+      state.merge({error: error});
     }
   };
   return {

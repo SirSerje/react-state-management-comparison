@@ -1,5 +1,5 @@
 import {createEvent, createStore, createEffect, combine, sample} from 'effector';
-import {Book, initialState, BooksState} from '../../common/types';
+import {Book, initialState} from '../../common/types';
 import {normalize} from '../../common/normalize';
 
 export const fetchBooks = createEvent();
@@ -12,6 +12,12 @@ export const getDataFx = createEffect(async () => {
 export const $books = createStore<typeof initialState>(initialState);
 $books.on(getDataFx.doneData, (state, books: Book[]) => ({
   books: normalize<Book>(books),
+  isLoading: false,
+  error: [],
+}));
+
+$books.on(getDataFx.failData, (state, error) => ({
+  ...state,
   isLoading: false,
   error: [],
 }));

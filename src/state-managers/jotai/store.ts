@@ -14,7 +14,8 @@ export const fetchAtom = atom(null, async (get, set) => {
     const data = await raw.json();
     set(booksAtom, normalize(data));
     set(loadingAtom, false);
-  } catch (e) {
+  } catch (e: any) {
     set(loadingAtom, false);
+    set(errorAtom, e);
   }
 });

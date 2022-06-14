@@ -18,7 +18,6 @@ export const fetchBooks =
   };
 
 const loadingReducer: CaseReducer<BooksState> = (state) => {
-  state.books = {...initialState.books};
   state.isLoading = true;
   state.error = [];
 };
@@ -30,7 +29,7 @@ const successReducer: CaseReducer<BooksState, PayloadAction<Book[]>> = (state, a
 const errorReducer: CaseReducer<BooksState, PayloadAction<Book[]>> = (state, payload) => {
   state.books = {...initialState.books};
   state.isLoading = false;
-  state.error.push(payload);
+  state.error = payload;
 };
 
 export const booksSlice = createSlice({

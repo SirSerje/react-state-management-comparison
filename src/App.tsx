@@ -22,6 +22,8 @@ componentsMap.set(6, HookstateComponent);
 componentsMap.set(7, EffectorComponent);
 
 export default () => {
+  console.count('|APP rerender');
+
   const [stateManager, setStateManager] = React.useState(0);
   const isChecked = (i: number): boolean => i === stateManager;
   const handleChange = (i: number) => setStateManager(i);

@@ -9,11 +9,9 @@ export const useApplicationState = create<BooksState & {fetchBook: () => Promise
     try {
       const response = await fetch('http://localhost:3067/data');
       const books = await response.json();
-      set({books: normalize<Book>(books)});
-      set({isLoading: false});
+      set({error: [], isLoading: false, books: normalize<Book>(books)});
     } catch (e) {
-      set({error: [e]});
-      set({isLoading: false});
+      set({books: {...initialState.books}, isLoading: false, error: [e]});
     }
   },
 }));

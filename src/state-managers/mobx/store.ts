@@ -20,18 +20,24 @@ class ApplicationStore {
     fetch('http://localhost:3067/data')
       .then((response) => response.json())
       .then((data: Book[]) => {
-        this.state.books = normalize<Book>(data);
-        this.state.isLoading = false;
-        this.state.error = [];
+        this.books = data;
+        this.loading = false;
+        this.error = [];
       })
       .catch((e) => {
-        this.state.books = {...initialState.books};
-        this.state.isLoading = false;
-        this.state.error.push(e);
+        this.books = initialState.books.data;
+        this.loading = false;
+        this.error = e;
       });
   }
-  private setInitial() {
-    this.state = {...initialState};
+  private set books(value: any) {
+    this.state.books = normalize<Book>(value);
+  }
+  private set loading(value: boolean) {
+    this.state.isLoading = value;
+  }
+  private set error(value: any) {
+    this.state.error = value;
   }
 }
 

@@ -42,7 +42,7 @@ export const counterReducer = (state = initialState, action: Action): State<Book
     case FETCH_LOADING:
       return {...state, isLoading: true, error: []};
     case FETCH_ERROR:
-      return {...state, isLoading: false, error: [...state.error, action.payload]};
+      return {...state, isLoading: false, error: action.payload};
     default:
       return state;
   }
